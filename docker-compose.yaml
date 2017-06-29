@@ -1,0 +1,54 @@
+version: '3'
+services:
+    nginx:
+        image: nginx:1.12
+        networks:
+            - frontend
+            - backend
+        ports:
+            - "9090:80"
+        volumes:
+            - ./config/default.conf:/etc/nginx/conf.d/default.conf:ro
+            - ../jitsi-meet:/usr/share/nginx/html:ro
+            - ./config/config.js:/usr/share/nginx/html/config.js:ro
+        restart: unless-stopped
+    prosody:
+        image: prosody/prosody:0.9.12
+        environment:
+            LOCAL: focus
+            DOMAIN: auth.prosody
+            PASSWORD: YOURSECRET3
+        networks:
+            - backend
+        expose:
+            - "5280" # nginx
+            - "5222" # jicofo
+        ports:
+            - "5347:5347" # jicofo, videobridge; bound to host as videobridge uses network_mode: host
+        volumes:
+            - ./config/prosody.cfg.lua:/etc/prosody/prosody.cfg.lua
+            - prosody-logs:/var/log/prosody
+        restart: unless-stopped
+    jicofo:
+        build: ./jicofo
+        environment:
+            XMPP_HOST: prosody
+            XMPP_DOMAIN: prosody
+            JICOFO_XMPP_FOCUS_SECRET: YOURSECRET2
+            JICOFO_XMPP_FOCUS_USER_PASSWORD: YOURSECRET3
+        networks:
+            - backend
+        restart: unless-stopped
+    videobridge:
+        build: ./videobridge
+        environment:
+            XMPP_HOST: 127.0.0.1 # using network_mode: host so prosody is reachable at 127.0.0.1:5347
+            XMPP_DOMAIN: prosody
+            VIDEOBRIDGE_XMPP_SECRET: YOURSECRET1
+        network_mode: host
+        restart: unless-stopped
+volumes:
+    prosody-logs:
+networks:
+    frontend:
+    backend:
