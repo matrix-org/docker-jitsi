@@ -21,11 +21,8 @@ RUN curl -LSs https://download.jitsi.org/jitsi-key.gpg.key | apt-key add - && \
     DEBIAN_FRONTEND=noninteractive apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         jicofo && \
-    mkdir -p /etc/service/jicofo && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-COPY jicofo.sh /etc/service/jicofo/run
-COPY finish.sh /etc/service/jicofo/finish
-RUN chmod a+x /etc/service/jicofo/run /etc/service/jicofo/finish
+COPY rootfs /
 
 CMD ["/sbin/my_init"]
