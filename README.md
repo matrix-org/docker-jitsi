@@ -1,12 +1,28 @@
 # Jitsi Meet in docker
 
-Implemented based on https://github.com/jitsi/jitsi-meet/blob/master/doc/manual-install.md
+Implemented based on [Jitsi Meet manual installation instructions](https://github.com/jitsi/jitsi-meet/blob/master/doc/manual-install.md).
 
 ## Images
 
-* prosody - official image
-* nginx - official image
-* jicofo and videobridge - custom in-tree, based on phusion/baseimage
+* prosody - [official image](https://hub.docker.com/r/prosody/prosody/)
+* nginx - [official image](https://hub.docker.com/_/nginx/)
+* jicofo and videobridge - custom in-tree, based on [phusion/baseimage](https://github.com/phusion/baseimage-docker)
+
+## jitsi-meet
+
+Clone and prepare the [jitsi-meet web repository](https://github.com/jitsi/jitsi-meet) alongside the `docker-jitsi` directory. It is mounted as a volume into the nginx container to be served.
+
+That is from the directory where this README.md file is:
+```
+cd ..
+
+git clone git@github.com:jitsi/jitsi-meet.git
+
+cd jitsi-meet
+npm install && make
+
+cd ../docker-jitsi
+```
 
 ## Configuration
 
@@ -32,6 +48,7 @@ muc: 'conference.prosody', // FIXME: use XEP-0030
 focus: 'focus.prosody', // defaults to 'focus.jitsi-meet.example.com'
 focusUserJid: 'focus@auth.prosody', // The real JID of focus participant - can be overridden here
 ```
+**NOTE:** `config/config.js` is from the jitsi-meet repository. If you prefer, you can modify `docker-compose.yaml` to not mount in `config/config.js` and instead modify the config.js in-place in your jitsi-meet clone.
 
 `config/default.conf`:
 (Note: also change "localhost" here)
@@ -86,4 +103,4 @@ docker-compose -p jitsi up -d
 
 ## License
 
-Apache License, Version 2.0. See the LICENSE file for more details.
+Apache License, Version 2.0. See the [LICENSE](https://github.com/matrix-org/docker-jitsi/blob/master/LICENSE) file for more details.
