@@ -83,3 +83,7 @@ services:
 docker-compose -p jitsi build
 docker-compose -p jitsi up -d
 ```
+
+## License
+
+Apache License, Version 2.0. See the LICENSE file for more details.
