@@ -70,7 +70,7 @@ services:
 * nginx
     * 9090 - HTTP for jitsi-meet web client
 * prosody
-    * 5347 - prosody component port, used by videobridge. Don't expose to the world.
+    * 5347 - prosody component port, used by videobridge. **Don't expose to the world in your firewall rules.**
 * jitsi-videobridge
     * 4443/tcp - WebRTC over TCP/TLS for corporate firewalls blocking UDP traffic
     * 49152-65535/udp - WebRTC, dynamically bound as needed and available
