@@ -83,6 +83,7 @@ modules_enabled = {
 		"adhoc";
 		"websocket";
 		"http_altconnect";
+		--"turncredentials";
 }
 
 -- These modules are auto-loaded, but should you want
@@ -158,6 +159,13 @@ authentication = "internal_hashed"
 log = {
 	{levels = {min = "info"}, to = "console"};
 }
+
+-- mod_turncredentials : XEP-0215 TURN configuration
+--turncredentials_secret = "keepthissecret";
+--turncredentials = {
+--    { type = "stun", host = "8.8.8.8" },
+--    { type = "turn", host = "8.8.8.8", port = 3478 },
+--    { type = "turn", host = "8.8.8.8", port = 80, transport = "tcp" }
 
 ----------- Virtual hosts -----------
 -- You need to add a VirtualHost entry for each domain you wish Prosody to serve.

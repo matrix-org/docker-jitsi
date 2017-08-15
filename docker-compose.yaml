@@ -40,6 +40,7 @@ services:
         ports:
             - "5347:5347" # jicofo, videobridge; bound to host as videobridge uses network_mode: host
         volumes:
+            - ./config/mod_turncredentials.lua:/usr/lib/prosody/modules/mod_turncredentials/mod_turncredentials.lua
             - ./config/prosody.cfg.lua:/etc/prosody/prosody.cfg.lua
             - prosody-logs:/var/log/prosody
         restart: unless-stopped
