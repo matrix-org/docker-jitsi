@@ -27,3 +27,23 @@ else
     echo "org.jitsi.videobridge.SINGLE_PORT_HARVESTER_PORT=65535" >> \
         $PROPERTIES_FILE
 fi
+
+if [[ -n "$VIDEOBRIDGE_TCP_PORT" ]]; then
+    echo "org.jitsi.videobridge.TCP_HARVESTER_PORT=${VIDEOBRIDGE_TCP_PORT}" >> \
+        $PROPERTIES_FILE
+fi
+if [[ -n "$VIDEOBRIDGE_TCP_EXTERNAL_PORT" ]]; then
+    echo "org.jitsi.videobridge.TCP_HARVESTER_MAPPED_PORT=${VIDEOBRIDGE_TCP_EXTERNAL_PORT}" >> \
+        $PROPERTIES_FILE
+fi
+if [[ -n "$VIDEOBRIDGE_SSLTCP" ]]; then
+    echo "org.jitsi.videobridge.TCP_HARVESTER_SSLTCP=${VIDEOBRIDGE_SSLTCP}" >> \
+        $PROPERTIES_FILE
+else
+    echo "org.jitsi.videobridge.TCP_HARVESTER_SSLTCP=false" >> \
+        $PROPERTIES_FILE
+fi
+if [[ -n "$VIDEOBRIDGE_ALLOWED_ADDRESSES" ]]; then
+    echo "org.jitsi.videobridge.ALLOWED_ADDRESSES=${VIDEOBRIDGE_ALLOWED_ADDRESSES}" >> \
+        $PROPERTIES_FILE
+fi
