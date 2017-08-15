@@ -16,13 +16,68 @@
 
 set -e
 
-REPOSITORY=${1:-stable}
+JICOFO_VERSION="*"
+VIDEOBRIDGE_VERSION="*"
+REPOSITORY="stable"
 
-for image in jicofo videobridge; do
+build_image() {
+    local image="$1"
+    local version="$2"
+    local docker_args="$3"
+
+    if [ -z "${version}" ] || [ "*x" = "${version}x" ]; then
+        version=`date +%Y%m%d`-${REPOSITORY}
+    fi
+
+    echo ""
+    echo "Building ${image}:${version} (with \"${docker_args}\")"
+
     docker build \
         --no-cache \
         --network=host \
         --build-arg "REPOSITORY=${REPOSITORY}" \
-        -t ${image}:`date +%Y%m%d`-${REPOSITORY} \
+        $docker_args \
+        -t ${image}:${version} \
         ${image}/
+}
+
+
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+        -h|--help)
+        echo "Usage:"
+        echo "build_images.sh [options]"
+        echo ""
+        echo "    -h|--help                     Display this help text"
+        echo "    -j|--jicofo <version>         Set jicofo package version [default: * (i.e. latest)]"
+        echo "    -v|--videobridge <version>    Set videobridge package version [default: * (i.e. latest)]"
+        echo "    -r|--repository <string>      Set repository to stable or unstable [default: stable]"
+        exit
+        ;;
+        -j|--jicofo)
+        JICOFO_VERSION="${2:-*}"
+        shift
+        ;;
+        -v|--videobridge)
+        VIDEOBRIDGE_VERSION="${2:-*}"
+        shift
+        ;;
+        -r|--repository)
+        REPOSITORY="${2:-stable}"
+        shift
+        ;;
+        *)
+        echo "Unknown option $1"
+        ;;
+    esac
+    shift
 done
+
+echo "Building images with:"
+echo "JICOFO_VERSION: \"$JICOFO_VERSION\""
+echo "VIDEOBRIDGE_VERSION: \"$VIDEOBRIDGE_VERSION\""
+echo "REPOSITORY: \"$REPOSITORY\""
+
+build_image jicofo "$JICOFO_VERSION" "--build-arg JICOFO_VERSION=${JICOFO_VERSION}"
+build_image videobridge "$VIDEOBRIDGE_VERSION" "--build-arg VIDEOBRIDGE_VERSION=${VIDEOBRIDGE_VERSION}"
