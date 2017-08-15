@@ -15,12 +15,13 @@
 FROM phusion/baseimage:0.9.22
 
 ARG REPOSITORY=stable
+ARG VIDEOBRIDGE_VERSION=*
 
 RUN curl -LSs https://download.jitsi.org/jitsi-key.gpg.key | apt-key add - && \
     echo "deb https://download.jitsi.org $REPOSITORY/" > /etc/apt/sources.list.d/jitsi-$REPOSITORY.list && \
     DEBIAN_FRONTEND=noninteractive apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        jitsi-videobridge && \
+        jitsi-videobridge="$VIDEOBRIDGE_VERSION" && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY rootfs /
