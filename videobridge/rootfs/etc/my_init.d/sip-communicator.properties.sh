@@ -47,3 +47,20 @@ if [[ -n "$VIDEOBRIDGE_ALLOWED_ADDRESSES" ]]; then
     echo "org.jitsi.videobridge.ALLOWED_ADDRESSES=${VIDEOBRIDGE_ALLOWED_ADDRESSES}" >> \
         $PROPERTIES_FILE
 fi
+
+# callstats.io stats reporting
+if [[ -n "$VIDEOBRIDGE_CALLSTATS_APPID" && -n "$VIDEOBRIDGE_CALLSTATS_APPSECRET" ]]; then
+    echo "io.callstats.sdk.CallStats.appId=${VIDEOBRIDGE_CALLSTATS_APPID}" >> \
+        $PROPERTIES_FILE
+    echo "io.callstats.sdk.CallStats.appSecret=${VIDEOBRIDGE_CALLSTATS_APPSECRET}" >> \
+        $PROPERTIES_FILE
+    echo "io.callstats.sdk.CallStats.bridgeId=${VIDEOBRIDGE_CALLSTATS_BRIDGEID}" >> \
+        $PROPERTIES_FILE
+
+    echo "org.jitsi.videobridge.ENABLE_STATISTICS=true" >> \
+        $PROPERTIES_FILE
+    echo "org.jitsi.videobridge.STATISTICS_INTERVAL.callstats.io=30000" >> \
+        $PROPERTIES_FILE
+    echo "org.jitsi.videobridge.STATISTICS_TRANSPORT=callstats.io" >> \
+        $PROPERTIES_FILE
+fi

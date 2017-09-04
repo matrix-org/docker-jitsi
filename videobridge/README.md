@@ -12,5 +12,9 @@
 * `VIDEOBRIDGE_TCP_EXTERNAL_PORT` - the external TCP port advertised in TCP candidates (default: 443)
 * `VIDEOBRIDGE_SSLTCP` - whether to expect a TLS handshake at the beginning of communications on the TCP listener [proprietary mechanism to fool proxies, supported in Chrome] (default: false) **NOTE**: will **only** advertise `ssltcp` candidates and not `tcp` candidates if this is enabled which may be undesirable.
 * `VIDEOBRIDGE_ALLOWED_ADDRESSES` - a comma-separated list of allowed addresses to be advertised in ICE candidates by the videobridge. (default: "")
+* `VIDEOBRIDGE_CALLSTATS_APPID` - callstats.io app ID for stats reporting
+* `VIDEOBRIDGE_CALLSTATS_APPSECRET` - callstats.io app secret for stats reporting
+* `VIDEOBRIDGE_CALLSTATS_BRIDGEID` - a string identifying this specific videobridge
+
 
 **Note:** Run the container with `--net=host` so that the UDP media ports specified by `VIDEOBRIDGE_MIN_PORT` and `VIDEOBRIDGE_MAX_PORT` are accessible. Docker is not yet good at mapping wide ranges of UDP ports from a host to a container. Alternatively, expose `VIDEOBRIDGE_TCP_PORT` and `VIDEOBRIDGE_MAX_PORT`. Jitsi videobridge can handle many UDP clients on a single port which is configured to use `VIDEOBRIDGE_MAX_PORT` in this image.
