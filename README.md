@@ -1,6 +1,6 @@
 # Jitsi Meet in docker
 
-Implemented based on [Jitsi Meet manual installation instructions](https://github.com/jitsi/jitsi-meet/blob/master/doc/manual-install.md).
+Implemented based on [Jitsi Meet manual installation instructions](https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-manual).
 
 ## Images
 
